@@ -1,7 +1,11 @@
 const path = require('path');
-// const bcrypt = require('bcrypt');
-// const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 require('dotenv').config();
+
+
+const sequelize = require('../model/sequelize');
+const {User} = require('../model/database');
 
 
 
@@ -13,5 +17,25 @@ exports.getLogin = (req,res,next)=>{
 };
 
 exports.postLogin = async (req, res, next)=>{
-    
+    let t;
+
+    try{
+        t = await sequelize.transaction();
+        let {email, password, role} = req.body;
+
+        if(email.length > 0 && email.includes('@') && password.length > 0){
+            
+            let data = await User.findOne({})
+
+        }
+        else{
+            res.send({msg: 'login error'});
+            console.trace('login error');
+        }
+
+
+    }catch(err){
+        console.trace(err);
+
+    }
 }

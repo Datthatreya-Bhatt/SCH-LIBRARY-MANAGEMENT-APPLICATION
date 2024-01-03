@@ -6,6 +6,7 @@ require('dotenv').config();
 
 const role = require('./routes/role');
 const login = require('./routes/login');
+const signup = require('./routes/signup');
 
 
 const app = express();
@@ -20,6 +21,7 @@ app.use(parser.json());
 
 app.use(role);
 app.use(login);
+app.use(signup);
 
 
 app.listen(process.env.PORT || 3000); 
