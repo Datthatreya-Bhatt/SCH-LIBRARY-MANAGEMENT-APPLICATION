@@ -5,7 +5,6 @@ const sequelize = require('../model/sequelize');
 
 
 
-
 const User = sequelize.define('user', {
   // Defining the columns of the table
   id: {
@@ -40,7 +39,47 @@ const User = sequelize.define('user', {
 
 
 
+const Book = sequelize.define('book', {
+    // Defining the columns of the table
+    id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      primaryKey: true,
+      autoIncrement:true,
+      unique:true
+    },
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    }
+    
+  });
+  
 
+
+  const Ledger = sequelize.define('ledger', {
+    // Defining the columns of the table
+    id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      primaryKey: true,
+      autoIncrement:true,
+      unique:true
+    },
+    book: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    user: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    transaction: {
+        type: DataTypes.STRING,
+        allowNull: false
+    }
+    
+  });
 
 // Create the table in the database
 async function createTable() {
@@ -60,6 +99,144 @@ createTable()
 
 
 module.exports = {
-    User:User
+    User:User,
+    Book: Book,
+    Ledger: Ledger
     
 };
+
+
+
+
+
+
+
+
+/* 
+
+
+
+
+
+
+const Admin = sequelize.define('admin', {
+    // Defining the columns of the table
+    id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      primaryKey: true,
+      autoIncrement:true,
+      unique:true
+    },
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    email: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true
+    },
+    password: {
+      type: DataTypes.STRING,
+      allowNull:false,
+  
+    }
+    
+  });
+
+
+
+const User = sequelize.define('user', {
+    // Defining the columns of the table
+    id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      primaryKey: true,
+      autoIncrement:true,
+      unique:true
+    },
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    email: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true
+    },
+    password: {
+      type: DataTypes.STRING,
+      allowNull:false,
+  
+    }
+    
+  });
+
+
+  const Book = sequelize.define('book', {
+    // Defining the columns of the table
+    id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      primaryKey: true,
+      autoIncrement:true,
+      unique:true
+    },
+    title: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    author: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    quantity: {
+      type: DataTypes.INTEGER,
+      allowNull:false,
+  
+    }
+    
+  });
+
+
+
+  const Transaction = sequelize.define('transaction', {
+    // Defining the columns of the table
+    id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      primaryKey: true,
+      autoIncrement:true,
+      unique:true
+    },
+    userId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    bookId: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+      
+    },
+    borrowDate: {
+      type: DataTypes.STRING,
+      allowNull:false
+  
+    },    
+    returnDate: {
+        type: DataTypes.STRING,
+        allowNull:false
+    
+    }
+    
+  });
+
+
+
+
+
+
+
+
+*/

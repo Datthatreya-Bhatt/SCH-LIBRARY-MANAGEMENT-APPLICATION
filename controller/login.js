@@ -17,15 +17,43 @@ exports.getLogin = (req,res,next)=>{
 };
 
 exports.postLogin = async (req, res, next)=>{
-    let t;
 
     try{
-        t = await sequelize.transaction();
         let {email, password, role} = req.body;
+        role = role === 'admin';
 
         if(email.length > 0 && email.includes('@') && password.length > 0){
             
-            let data = await User.findOne({})
+            let find = await User.findOne({
+                where: {
+                    email: email,
+                    isadmin: role
+                }
+            });
+
+            if(find){
+                
+                let hash = await bcrypt.compare(password, find.password);
+
+                if(hash){
+
+                    let id = find.id;
+                    let token = jwt.sign({id:id},process.env.JWT_S_KEY);
+    
+                    res.send({msg: 'success', token: token});
+
+                }
+                else{
+                    res.send({msg: 'wrong password'});
+                }
+
+
+            }
+            else{
+                res.send({msg: 'wrong cred'});
+            }
+
+
 
         }
         else{
@@ -36,6 +64,7 @@ exports.postLogin = async (req, res, next)=>{
 
     }catch(err){
         console.trace(err);
+        res.send({msg: err});
 
     }
 }

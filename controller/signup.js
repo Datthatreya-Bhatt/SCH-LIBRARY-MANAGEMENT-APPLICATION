@@ -47,7 +47,9 @@ exports.postSignup = async(req, res, next)=>{
                     email: email,
                     password: hash,
                     isadmin: false
-                })
+                },
+                { transaction: t})
+                
                 res.send({msg: 'Signup success'});
                 await t.commit();
 
