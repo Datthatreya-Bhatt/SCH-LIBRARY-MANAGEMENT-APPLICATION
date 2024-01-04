@@ -32,6 +32,17 @@ const User = sequelize.define('user', {
     type: DataTypes.BOOLEAN,
     allowNull: false
     
+  },
+  borrowed: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    defaultValue: 0
+  },
+  limit: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    defaultValue: 3
+
   }
 });
 
@@ -51,6 +62,10 @@ const Book = sequelize.define('book', {
     name: {
       type: DataTypes.STRING,
       allowNull: false,
+    },
+    available: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false
     }
     
   });
@@ -70,7 +85,11 @@ const Book = sequelize.define('book', {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    user: {
+    bookId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    email: {
         type: DataTypes.STRING,
         allowNull: false
     },
@@ -80,6 +99,26 @@ const Book = sequelize.define('book', {
     }
     
   });
+
+
+  
+
+User.hasMany(Book);
+Book.belongsTo(User);
+
+
+
+User.hasMany(Ledger);
+Ledger.belongsTo(User);
+
+
+
+
+
+
+
+
+
 
 // Create the table in the database
 async function createTable() {

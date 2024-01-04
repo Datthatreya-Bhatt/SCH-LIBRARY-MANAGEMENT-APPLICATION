@@ -24,16 +24,30 @@ router.post('/admin/edit', auth.auth, admin.updateBook);
 //to get edit admin profile page
 router.get('/edit', admin.getEdit);
 
+//to edit admin profile
+router.post('/edit', auth.auth, admin.editProfile);
 
 
-//to see transactions in library
+//to see transactions page
 router.get('/admin/transaction', admin.getTransaction);
 
 
+//to get transactions data
+router.get('/admin/transaction/data', auth.auth, admin.seeTransaction);
 
+//to get transactions detail page
+router.get('/admin/transaction/detail', admin.getDetail);
+
+//to get transaction detail of a user
+router.post('/admin/transaction', auth.auth, admin.getUserTransaction);
+
+
+
+//to get setLimit for borrowing page
+router.get('/admin/limit', admin.getSetLimitPage);
 
 //to set limit for borrowing
-router.get('/admin/limit', admin.getSetLimitPage);
+router.post('/admin/limit', auth.auth, admin.setLimit);
 
 
 module.exports = router;

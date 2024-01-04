@@ -6,22 +6,20 @@ axios.defaults.headers.common['Authorization'] = token;
 let url = 'http://localhost:3000';
 
 
-document.getElementById('edit').addEventListener('click', async()=>{
+document.getElementById('confirm').addEventListener('click', async()=>{
 
     try{
-        let name = document.getElementById('name').value;
-        let email = document.getElementById('email').value;
-        let password = document.getElementById('password').value;
+        let number = document.getElementById('number').value;
+       
 
-        let res = await axios.post(`${url}/edit`, {
-            name, name,
-            email: email,
-            password: password
+        let res = await axios.post(`${url}/admin/limit`, {
+            number, number
+            
         })
         console.log(res);
 
         if(res.data.msg === 'success'){
-            location.href = `${url}/login`;
+            alert('Changes made succesfully')
         }
         else{
             alert(res.data.msg);

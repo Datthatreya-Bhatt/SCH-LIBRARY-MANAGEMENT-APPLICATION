@@ -4,34 +4,6 @@ axios.defaults.headers.common['Authorization'] = token;
 
 let url = 'http://localhost:3000';
 
-async function edit(id){
-    let name = document.getElementById('book').value;
-
-    let res = await axios.post(`${url}/admin/edit`, {
-        book: name,
-        book_id: id
-    })
-    // console.log(res);
-    location.reload();
-}
-
-async function submit(){
-
-        let book = document.getElementById('book').value;
-        try{
-    
-            
-            let res = await axios.post(`${url}/admin/book`, {
-                book: book
-            });
-    
-            location.reload();
-            
-        }catch(err){
-            console.log(err);
-        }
-    
-} 
 
 
 
@@ -41,9 +13,9 @@ async function submit(){
 window.onload = async()=>{
     try{
 
-        let res = await axios.get(`${url}/admin/book`);
+        let res = await axios.get(`${url}/user/book`);
 
-        
+        console.log(res);
         let length = res.data.length;
         if(length>0){
                 let thead = document.getElementById('thead');
@@ -51,19 +23,19 @@ window.onload = async()=>{
                 let th1 = document.createElement('th');
                 let th2 = document.createElement('th');
                 let th3 = document.createElement('th');
-                let th4 = document.createElement('th');
+                
                 
 
                 th1.innerHTML = 'S.N';
                 th2.innerHTML = 'Name';
-                th3.innerHTML = 'Edit';
-                th4.innerHTML = 'Delete';
+                th3.innerHTML = 'Borrow';
+                
                 
 
                 thead.appendChild(th1);
                 thead.appendChild(th2);
                 thead.appendChild(th3);
-                thead.appendChild(th4);
+                
                 
 
             for(let i = 0;i<length;i++){
@@ -76,7 +48,7 @@ window.onload = async()=>{
                 let td1 = document.createElement('td');
                 let td2 = document.createElement('td');
                 let td3 = document.createElement('td');
-                let td4 = document.createElement('td');
+                
                 
 
                 td1.innerHTML = `${id}`;
@@ -87,15 +59,23 @@ window.onload = async()=>{
 
                 
                 let btn1 = document.createElement('button');
-                btn1.innerText = 'Edit';
+                btn1.innerText = 'Borrow';
                 btn1.className = 'btn btn-primary btn-sm';
                 btn1.addEventListener('click',async()=>{
                     try{
-                        document.getElementById('button').removeEventListener('click', submit);
-                        document.getElementById('book').value = name;
-                        document.getElementById('button').addEventListener('click', ()=>{
-                            edit(id);
-                        });
+
+                        let book_id = id;
+                        let book = name;
+                        
+                        let res = await axios.post(`${url}/user/borrow`, {
+                            book_id: book_id,
+                            book: book
+                        })
+                        console.log(res);
+                        if(res.data.msg ===  "limit reached"){
+                            alert( "limit reached");
+                        }
+                        location.reload();
 
 
                         
@@ -107,20 +87,6 @@ window.onload = async()=>{
                 td3.appendChild(btn1);
                 
 
-                let btn = document.createElement('button');
-                btn.innerText = 'Delete';
-                btn.className = 'btn btn-primary btn-sm';
-                btn.addEventListener('click',async()=>{
-                    try{
-                        let res = await axios.delete(`${url}/admin/${id}`)
-                        td4.parentNode.removeChild(td4);
-                        location.reload();
-                    }catch(err){
-                        console.log(err);
-                    }
-                });
-
-                td4.appendChild(btn);
 
 
 
@@ -129,7 +95,7 @@ window.onload = async()=>{
                 tr.appendChild(td1);
                 tr.appendChild(td2);
                 tr.appendChild(td3);
-                tr.appendChild(td4);
+                
                 
 
                 tbody.appendChild(tr);
@@ -146,7 +112,6 @@ window.onload = async()=>{
 
 
 
-document.getElementById('button').addEventListener('click', submit);
 
 
 document.getElementById('edit').addEventListener('click', ()=>{
@@ -154,9 +119,6 @@ document.getElementById('edit').addEventListener('click', ()=>{
 })
 
 document.getElementById('transactions').addEventListener('click', ()=>{
-    location.href = `${url}/admin/transaction`;
+    location.href = `${url}/user/borrow/page`;
 })
 
-document.getElementById('limit').addEventListener('click', ()=>{
-    location.href = `${url}/admin/limit`;
-})
